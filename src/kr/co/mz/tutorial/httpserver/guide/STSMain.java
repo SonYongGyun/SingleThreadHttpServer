@@ -13,9 +13,9 @@ public class STSMain {
         var serverSocketManager = new ServerSocketManager(port);
 
     ) {
-      serverSocketManager.create();
-
       serverSocketManager.init();
+
+      serverSocketManager.start();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

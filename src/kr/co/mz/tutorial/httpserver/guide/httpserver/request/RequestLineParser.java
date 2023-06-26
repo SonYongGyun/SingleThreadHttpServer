@@ -1,24 +1,29 @@
 package kr.co.mz.tutorial.httpserver.guide.httpserver.request;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RequestLineParser {
 
-  private final String requestLine;
+  private final InputStream inputStream;
   private String requestMethod;
   private String requestURI;
   private Map<String, String> requestParameters = new HashMap<>();
 
-  public RequestLineParser(String requestLine) {
-    this.requestLine = requestLine;
+  public RequestLineParser(InputStream inputStream) {
+    this.inputStream = inputStream;
   }
 
-  public void doParse() {
-    if (requestLine.isBlank()) {
-      System.out.println("No requestLine.");
-      return;
-    }
+
+  public void parse() throws IOException {
+    var reader = new BufferedReader(
+        new InputStreamReader(inputStream));
+
+    var requestLine = reader.readLine();
 
     String[] parts = requestLine.split(" ", 3);
     if (parts.length == 3) {
@@ -31,40 +36,30 @@ public class RequestLineParser {
         String[] params = uriParts[1].split("&");
 
         for (String param : params) {
-          String[] keyValue = param.split("=");
+          String[] keyValue = param.split("="); // 파라미터 변수많음. url class
           if (keyValue.length == 2) {
             String key = keyValue[0];
             String value = keyValue[1];
             requestParameters.put(key, value);
           }
         }
-      } else {
-        requestParameters = null;
       }
     } else {
-      System.out.println("Invalid requestLine format.");
+      System.out.println("response 400 error fix .");// todo fix 404 에러 뜨게 만들어보기.
+
     }
-  }//doParse
+  }//parse
 
 
-  public String getRequestMethod() {
-    if (requestMethod == null || requestMethod.isBlank()) {
-      throw new IllegalStateException("RequestMethod is not set.");
-    }
+  public String getRequestMethod() {// todo nullable notice 위에서 null 될수있다고 했으면 구지 또 할필요 없다.
     return requestMethod;
   }
 
   public String getRequestURI() {
-    if (requestURI == null || requestURI.isBlank()) {
-      throw new IllegalStateException("RequestURI is not set.");
-    }
     return requestURI;
   }
 
   public Map<String, String> getRequestParameters() {
-    if (requestParameters == null) {
-      System.out.println("No Params");
-    }
     return requestParameters;
   }
 }//class

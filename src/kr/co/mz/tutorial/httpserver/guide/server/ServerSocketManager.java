@@ -13,30 +13,24 @@ public class ServerSocketManager implements Closeable {
   //private String ip;
   private ServerSocket serverSocket;
 
-  public ServerSocketManager(int port) {
+  public ServerSocketManager(int port) {//매니저말고 소켓으로
     this.port = port;
   }
 
 
-  public void create() throws IOException {
+  public void init() throws IOException {
     serverSocket = new ServerSocket(port);
     cache = new Cache();
-    System.out.println("Server has benn created.");
   }
 
-  public void init() {
-    if (serverSocket == null) {
-      System.out.println("Server is not created. Create first.");
-      return;
-    }
-    System.out.println("Server started.");
+  public void start() {
+
     while (true) {
 
       try (var clientSocket = serverSocket.accept();
-          var clientSocketManager = new ClientSocketManager(clientSocket);
+          var clientSocketManager = new ClientSocketManager(clientSocket, cache);
       ) {
-        System.out.println("Client connected.");
-        clientSocketManager.handleRequest(cache);
+        clientSocketManager.handleRequest();//name
 
       } catch (IOException ioe) {
         System.out.println("Failed to connect");

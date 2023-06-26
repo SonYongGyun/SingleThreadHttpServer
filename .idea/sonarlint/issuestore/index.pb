@@ -21,8 +21,6 @@ L
 src/resources/html/test.html,4/5/45ec289de6c863e19f730b3a9bd6e04160aececd
 M
 src/resources/html/test2.html,8/3/8365718b2c94baa183e3ad2ed7f4c486d897576f
-\
-,src/resources/html/downloader/test2down.html,0/9/0959a2698cdc9671393203233c1647abad2a8ba5
 ]
 -src/kr/co/mz/tutorial/io/FileCopierGuide.java,2/9/2947e6ac463b157eaace3a26b0175abf12ee6f8e
 j

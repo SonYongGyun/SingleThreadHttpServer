@@ -15,8 +15,6 @@ u
 Esrc/kr/co/mz/tutorial/httpserver/trashcan/SingleThreadHTTPServer.java,9/3/935287a29631129cc0fd917a28746cc5d81a50e4
 L
 src/resources/html/home.html,4/7/476a7517813b5fb3eceb9c771f10da3093b306c4
-\
-,src/resources/html/downloader/test2down.html,0/9/0959a2698cdc9671393203233c1647abad2a8ba5
 [
 +src/resources/html/downloader/testdown.html,8/1/810f14e4c1f99e1687f1dfefe98148f6a1feeea8
 L

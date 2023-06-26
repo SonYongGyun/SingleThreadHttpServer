@@ -1,9 +1,7 @@
 package kr.co.mz.tutorial.httpserver.guide.server;
 
-import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import kr.co.mz.tutorial.httpserver.guide.cache.Cache;
@@ -12,44 +10,41 @@ import kr.co.mz.tutorial.httpserver.guide.httpserver.response.ResponseGenerater;
 
 public class ClientSocketManager implements Closeable {
 
-  private Socket clientSocket;
+  private final Socket clientSocket;
+  private final Cache cache;
 
-  public ClientSocketManager(Socket clientSocket) {
+  public ClientSocketManager(Socket clientSocket,
+      Cache cache) {// todo 매니저말고 소켓으로 그리고 얘가 하는일이 너무 많다.
     this.clientSocket = clientSocket;
+    this.cache = cache;
   }
 
-  public void handleRequest(Cache cache) throws IOException {
+  public void handleRequest() throws IOException {
     // 소캣에서 요청 추출, 요청전달, 응답 생성
 
     //1.헤더 읽기
-    var reader = new BufferedReader(
-        new InputStreamReader(clientSocket.getInputStream()));
-//    String line;
-//    while ((line = reader.readLine()) != null) { // 다 읽으면 리더사망.
-//      // 읽은 문자열 처리  이까진 잘 온다.
-//      System.out.println(line + "?");
-//    }
+    //---------- todo 한줄 한번에 던지기. 아니면 아웃풋스트림 하나 던지던가.
+    var requestLineParser = new RequestLineParser(clientSocket.getInputStream());
+    requestLineParser.parse();
 
-    var requestLine = reader.readLine();
+    var requestMethod = requestLineParser.getRequestMethod();
+    var requestURI = requestLineParser.getRequestURI();
+    var requestParameters = requestLineParser.getRequestParameters();
+//------------------
 
-    var requestLineParser = new RequestLineParser(requestLine);
-    requestLineParser.doParse();
+    byte[] response = cache.get(requestURI);
 
-    var requsetMethod = requestLineParser.getRequestMethod();
-    var requsetUri = requestLineParser.getRequestURI();
-    var requsetParameters = requestLineParser.getRequestParameters();
-
-    //받아온 캐시와 비교해서 답해야함.
-    var responseGenerater = new ResponseGenerater(requsetMethod, requsetUri, requsetParameters);
-    if (!cache.getCache(requsetUri).isEmpty()) {
-
+    if (response == null) {
+      response = new ResponseGenerater(requestMethod, requestURI,
+          requestParameters).createHttpResponse();
+      cache.put(requestURI, response);
     }
 
     //2. 응답 쓰기.
-    OutputStream outputStream = clientSocket.getOutputStream();
-    outputStream.write(
-        responseGenerater.createHttpResponse()
-    );
+    OutputStream outputStream = clientSocket.getOutputStream(); //todo divideroll 지금은세세하게.
+
+    outputStream.write(response);
+
     outputStream.flush();
   }//handle
 
