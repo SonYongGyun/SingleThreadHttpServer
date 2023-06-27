@@ -1,4 +1,4 @@
-package kr.co.mz.tutorial.httpserver.guide.httpserver.request;
+package kr.co.mz.tutorial.httpserver.guide.httpserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +12,12 @@ public class RequestLineParser {
   private final InputStream inputStream;
   private String requestMethod;
   private String requestURI;
+  private String uriExtension;
   private Map<String, String> requestParameters = new HashMap<>();
 
   public RequestLineParser(InputStream inputStream) {
     this.inputStream = inputStream;
   }
-
 
   public void parse() throws IOException {
     var reader = new BufferedReader(
@@ -32,6 +32,8 @@ public class RequestLineParser {
       String[] uriParts = parts[1].split("\\?");
       requestURI = uriParts[0];
 
+      String[] uri = requestURI.split(".");
+      uriExtension = uri[1];
       if (uriParts.length > 1) {
         String[] params = uriParts[1].split("&");
 
@@ -51,7 +53,7 @@ public class RequestLineParser {
   }//parse
 
 
-  public String getRequestMethod() {// todo nullable notice 위에서 null 될수있다고 했으면 구지 또 할필요 없다.
+  public String getRequestMethod() {// nullable notice 위에서 null 될수있다고 했으면 구지 또 할필요 없다.
     return requestMethod;
   }
 
@@ -62,7 +64,14 @@ public class RequestLineParser {
   public Map<String, String> getRequestParameters() {
     return requestParameters;
   }
+
+  public String getUriExtension() {
+    return uriExtension;
+  }
+
 }//class
+
+
 
 
 

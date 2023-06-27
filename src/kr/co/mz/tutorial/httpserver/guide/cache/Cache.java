@@ -2,6 +2,7 @@ package kr.co.mz.tutorial.httpserver.guide.cache;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class Cache {
 
@@ -25,12 +26,8 @@ public class Cache {
   }
 
   public byte[] get(String key) {
-    if (key.isEmpty()) {
-      System.out.println("Invalid response title.");
-      return null;
-    }
-
-    return savedCache.get(key); //todo optional 옵셔널 써서 get 의 NPE 처리 하기.
+    return Optional.ofNullable(savedCache.get(key))
+        .orElse(new byte[0]); //optional 옵셔널 써서 get 의 NPE 처리 하기.
   }
 
   public void deleteCache(String responseTitle) {

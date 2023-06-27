@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import kr.co.mz.tutorial.httpserver.guide.cache.Cache;
 
-public class ServerSocketManager implements Closeable {
+public class STServerSocket implements Closeable {
 
   private Cache cache;
 
@@ -13,22 +13,19 @@ public class ServerSocketManager implements Closeable {
   //private String ip;
   private ServerSocket serverSocket;
 
-  public ServerSocketManager(int port) {//매니저말고 소켓으로
+  public STServerSocket(int port) {//매니저말고 소켓으로
     this.port = port;
   }
 
 
-  public void init() throws IOException {
+  public void start() throws IOException {
     serverSocket = new ServerSocket(port);
     cache = new Cache();
-  }
-
-  public void start() {
 
     while (true) {
 
       try (var clientSocket = serverSocket.accept();
-          var clientSocketManager = new ClientSocketManager(clientSocket, cache);
+          var clientSocketManager = new STClientSocket(clientSocket, cache);
       ) {
         clientSocketManager.handleRequest();//name
 
@@ -47,8 +44,6 @@ public class ServerSocketManager implements Closeable {
         serverSocket.close();
       } catch (IOException e) {
         throw new RuntimeException(e);
-      } finally {
-        System.out.println("Fail to close server socket");
       }
     }
   }

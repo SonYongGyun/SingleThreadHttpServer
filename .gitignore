@@ -39,15 +39,7 @@ bin/
 !/src/kr/co/mz/tutorial/httpserver/STHTTPServerMain.java
 !/src/kr/co/mz/tutorial/httpserver/trashcan/
 
-!/src/kr/co/mz/tutorial/httpserver/HeaderSlicer.java
 
-!/src/kr/co/mz/tutorial/httpserver/NotHTMLFileException.java
-
-!/src/kr/co/mz/tutorial/httpserver/ResponseMaker.java
-
-!/src/kr/co/mz/tutorial/httpserver/SingleThreadServerSocketManager.java
-
-!/src/kr/co/mz/tutorial/httpserver/STHTTPServerMain.java
 
 !/src/kr/co/mz/tutorial/io/
 
@@ -62,3 +54,4 @@ bin/
 !/src/kr/co/mz/tutorial/io/TargetFileAlreadyExistsException.java
 
 !/src/kr/co/mz/tutorial/Main.java
+!/src/kr/co/mz/tutorial/database/
