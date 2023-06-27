@@ -1,4 +1,4 @@
-package kr.co.mz.tutorial.httpserver.guide.util;
+package kr.co.mz.tutorial.httpserver.guide.util.file;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

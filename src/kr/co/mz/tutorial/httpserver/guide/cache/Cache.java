@@ -6,10 +6,9 @@ import java.util.Optional;
 
 public class Cache {
 
-  private Map<String, byte[]> savedCache;
+  private final Map<String, byte[]> savedCache;
 
   public Cache() {
-
     this.savedCache = new HashMap<>();
   }
 
@@ -31,25 +30,11 @@ public class Cache {
   }
 
   public void deleteCache(String responseTitle) {
-    if (responseTitle.isEmpty()) {
-      System.out.println("Invalid response title.");
-      return;
-    }
-
-    if (!savedCache.containsKey(responseTitle)) {
-      System.out.println("Cache not found for the given response title.");
-      return;
-    }
-
     savedCache.remove(responseTitle);
   }
 
   public void deleteAllCache() {
     savedCache.clear();
-  }
-
-  public boolean containsKey(String key) {// todo 이게 구지 필요한가? 안쓰고도 로직으로 짧게 처리 가능했다.
-    return savedCache.containsKey(key);
   }
 
 }

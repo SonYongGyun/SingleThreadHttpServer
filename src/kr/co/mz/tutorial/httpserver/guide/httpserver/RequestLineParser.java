@@ -32,7 +32,8 @@ public class RequestLineParser {
       String[] uriParts = parts[1].split("\\?");
       requestURI = uriParts[0];
 
-      String[] uri = requestURI.split(".");
+      String[] uri = requestURI.split("\\.");
+      System.out.println(uri[0]);
       uriExtension = uri[1];
       if (uriParts.length > 1) {
         String[] params = uriParts[1].split("&");

@@ -1,7 +1,7 @@
 package kr.co.mz.tutorial.httpserver.guide;
 
 import java.io.IOException;
-import kr.co.mz.tutorial.httpserver.guide.server.STServerSocket;
+import kr.co.mz.tutorial.httpserver.guide.server.STServer;
 
 public class STHTTPSMain {
 
@@ -10,7 +10,7 @@ public class STHTTPSMain {
     final int port = 8080;
 // todo 공부했던것들을 사용해서 발전시켜나가라.
     try (
-        var serverSocketManager = new STServerSocket(port);
+        var serverSocketManager = new STServer(port);
     ) {
       serverSocketManager.start();
     } catch (IOException e) {

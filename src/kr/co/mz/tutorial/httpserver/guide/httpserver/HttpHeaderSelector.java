@@ -5,8 +5,8 @@ public class HttpHeaderSelector {
   public String getHeaders(String extension,
       int resBodyLength) {// todo 강화된 switch문
     return switch (extension) {
-      case ".html" -> getHtmlHeaders(resBodyLength);
-      case ".ico" -> getFaviconHeaders(resBodyLength);
+      case "html" -> getHtmlHeaders(resBodyLength);
+      case "ico" -> getFaviconHeaders(resBodyLength);
       default -> notFoundHeaders();
     };
   }

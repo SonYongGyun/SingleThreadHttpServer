@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import kr.co.mz.tutorial.httpserver.guide.cache.Cache;
 
-public class STServerSocket implements Closeable {
+public class STServer implements Closeable {
 
   private Cache cache;
 
@@ -13,7 +13,7 @@ public class STServerSocket implements Closeable {
   //private String ip;
   private ServerSocket serverSocket;
 
-  public STServerSocket(int port) {//매니저말고 소켓으로
+  public STServer(int port) {//매니저말고 소켓으로
     this.port = port;
   }
 
@@ -22,17 +22,26 @@ public class STServerSocket implements Closeable {
     serverSocket = new ServerSocket(port);
     cache = new Cache();
 
-    while (true) {
+//    try (var dbConnector = new DBConnector()) {
+//      try {
+//        dbConnector.getConnection();
+//      } catch (SQLException e) {
+//        System.out.println("Failed to connect to MySQL database");
+//        e.printStackTrace();
+//        return;
+//      }
 
+    while (true) {
       try (var clientSocket = serverSocket.accept();
-          var clientSocketManager = new STClientSocket(clientSocket, cache);
+          var stClientSocket = new ClientRequestHandler(clientSocket, cache);
       ) {
-        clientSocketManager.handleRequest();//name
+        stClientSocket.handle();//name
 
       } catch (IOException ioe) {
         System.out.println("Failed to connect");
       }
     }
+
 
   }
 
