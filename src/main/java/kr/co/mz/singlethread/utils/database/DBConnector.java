@@ -8,11 +8,14 @@ public class DBConnector implements AutoCloseable {
 
   private Connection connection;
 
-  public Connection getConnection() throws SQLException {
-    var url = "jdbc:mysql://localhost:3306/webchat?serverTimezone=Asia/Seoul&useSSL=false";
+  public DBConnector() throws SQLException {
+    var url = "jdbc:mysql://localhost:3306/webchat?serverTimezone=Asia/Seoul&useSSL=true&requireSSL=false";
     var username = "webchat";
     var password = "webchat!";
     connection = DriverManager.getConnection(url, username, password);
+  }
+
+  public Connection getConnection() {
     return connection;
   }
 
