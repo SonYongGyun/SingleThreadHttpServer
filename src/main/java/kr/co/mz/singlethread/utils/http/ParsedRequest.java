@@ -13,7 +13,7 @@ public class ParsedRequest {
   private final String uriExtension;
 
 
-  public ParsedRequest(String requestLine) throws MalformedURLException {
+  public ParsedRequest(String requestLine) throws MalformedURLException, ArrayIndexOutOfBoundsException {
     var splitRequestLine = requestLine.split(" ");
     method = splitRequestLine[0];
     url = new URL("http://" + splitRequestLine[1]);

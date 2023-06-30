@@ -36,7 +36,7 @@ public class ClientSocket implements AutoCloseable {
         parsedRequest,
         cache
     );
-    System.out.println("parsed" + parsedRequest.getPath());
+
     var cacheDaoOneByFileName = cacheDao.findOneByFileName(parsedRequest.getPath().substring(6));
     var responseBytes = parsedRequest.isCacheDtoRequest() && cacheDaoOneByFileName.isPresent()
         ? cacheDaoOneByFileName.get().getFileData()
@@ -48,7 +48,10 @@ public class ClientSocket implements AutoCloseable {
     }
     var responseSender = new ResponseSender(socket.getOutputStream(), responseBytes);
     responseSender.send();
+
+
   }//handle
+
 
   @Override
   public void close() {

@@ -60,7 +60,6 @@ public class CacheDao {
       if (rs.next()) {
         cacheDto = CacheDto.fromResultSet(rs);
       }
-      System.out.println("searched fileName" + cacheDto.getFileName());
       return Optional.ofNullable(cacheDto);
     }
   }

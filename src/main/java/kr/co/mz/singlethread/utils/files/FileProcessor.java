@@ -17,7 +17,7 @@ public class FileProcessor {
     this.requsetUri = requsetUri;
   }
 
-  public byte[] read() {
+  public byte[] read() throws IOException {
     var resourceFile = new File(PROJECT_DIRECTORY + requsetUri);
     var buffer = new byte[4096];
 
@@ -30,9 +30,6 @@ public class FileProcessor {
 
       return outputStream.toByteArray();
 
-    } catch (IOException e) {
-      System.out.println("Failed to read file" + e.getMessage());
-      return new byte[0];
     }
   }
 

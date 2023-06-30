@@ -9,6 +9,9 @@ public class ResponseSender {
   private OutputStream clientOutputStream;
   private byte[] response;
 
+  public ResponseSender(OutputStream outputStream) {
+    this.clientOutputStream = outputStream;
+  }
 
   public ResponseSender(OutputStream outputStream, byte[] resposeBytes) {
     this.clientOutputStream = outputStream;

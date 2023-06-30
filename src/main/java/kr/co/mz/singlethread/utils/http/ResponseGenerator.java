@@ -1,5 +1,6 @@
 package kr.co.mz.singlethread.utils.http;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import kr.co.mz.singlethread.server.Cache;
 import kr.co.mz.singlethread.utils.files.FileProcessor;
@@ -19,7 +20,7 @@ public class ResponseGenerator {
     this.cache = cache;
   }
 
-  public byte[] generateResponse() {
+  public byte[] generateResponse() throws IOException {
     var responseBodyBytes = cache.get(parsedRequest.getPath());
 
     if (responseBodyBytes.length == 0) {
@@ -44,7 +45,7 @@ public class ResponseGenerator {
     return splicedBytes;
   }
 
-  public byte[] getBodyBytes() {
+  public byte[] getBodyBytes() throws IOException {
     return new FileProcessor(parsedRequest.getPath()).read();
 
   }
