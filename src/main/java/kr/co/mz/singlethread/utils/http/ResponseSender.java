@@ -2,27 +2,30 @@ package kr.co.mz.singlethread.utils.http;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.SQLException;
 
 public class ResponseSender {
 
 
-  private final OutputStream clientOutputStream;
-  private final byte[] response;
+  private OutputStream clientOutputStream;
+  private byte[] response;
 
-  public ResponseSender(OutputStream outputStream, ResponseGenerater responseGenerater)
-      throws SQLException {
+
+  public ResponseSender(OutputStream outputStream, byte[] resposeBytes) {
     this.clientOutputStream = outputStream;
-
-    this.response = responseGenerater.getOrGenerateResponse();
+    this.response = resposeBytes;
   }
 
+
   public void send() throws IOException {
-    var outputStream = clientOutputStream;
+    clientOutputStream.write(response);
 
-    outputStream.write(response);
+    clientOutputStream.flush();
+  }
 
-    outputStream.flush();
+  public void sendNotFound() throws IOException {
+    clientOutputStream.write((new HttpHeaderSelector().notFoundHeaders() + "Not Found").getBytes());
+    clientOutputStream.flush();
+
   }
 
 }//class

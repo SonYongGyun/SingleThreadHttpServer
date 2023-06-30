@@ -9,8 +9,6 @@ public class STHTTPSMain {
 
   public static void main(String[] args) {
     final int port = 8080;
-// todo 공부했던것들을 사용해서 발전시켜나가라.
-    System.out.println(System.getProperty("user.dir"));
 
     try (
         var serverSocketManager = new STServer(port);

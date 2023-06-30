@@ -5,21 +5,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import kr.co.mz.singlethread.repository.DTOHandler;
 
-public class ServerFileProcessor {
+public class FileProcessor {
 
   private static final String PROJECT_DIRECTORY =
       System.getProperty("user.dir") + "/src/resources/html"; // 사용 가능 ? 보안?
   private String requsetUri;
-  private DTOHandler cacheDAO;
 
-  public ServerFileProcessor(String requsetUri, DTOHandler cacheDAO) {
+
+  public FileProcessor(String requsetUri) {
     this.requsetUri = requsetUri;
-    this.cacheDAO = cacheDAO;
   }
 
   public byte[] readAndPut() {
+
     var resourceFile = new File(PROJECT_DIRECTORY + requsetUri);
     var buffer = new byte[4096];
 
@@ -29,13 +28,12 @@ public class ServerFileProcessor {
       while ((bytesRead = inputStream.read(buffer)) != -1) {
         outputStream.write(buffer, 0, bytesRead);
       }
-      //메타데이터만 저장함.
-      var readFileBytes = outputStream.toByteArray();
-      cacheDAO.putCache(resourceFile.getName(), readFileBytes);
-      return readFileBytes;
+
+      return outputStream.toByteArray();
+
     } catch (IOException e) {
       System.out.println("Failed to read file" + e.getMessage());
-      return null;
+      return new byte[0];
     }
   }
 
