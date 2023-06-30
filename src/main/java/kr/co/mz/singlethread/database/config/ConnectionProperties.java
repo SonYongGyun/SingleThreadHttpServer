@@ -1,4 +1,4 @@
-package kr.co.mz.singlethread.config;
+package kr.co.mz.singlethread.database.config;
 
 public class ConnectionProperties {
 

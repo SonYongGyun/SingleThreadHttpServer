@@ -1,4 +1,4 @@
-package kr.co.mz.singlethread.dao;
+package kr.co.mz.singlethread.database.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import kr.co.mz.singlethread.model.CacheDto;
+import kr.co.mz.singlethread.database.model.CacheDto;
 
 public class CacheDao {
 
@@ -111,6 +111,7 @@ public class CacheDao {
 
   public boolean existsByFileName(String fileName) throws SQLException {
     final var sql = "select exists (select 1 from cache where filename=?)";
+    System.out.println("existsBy");
     try (
         PreparedStatement pst = connection.prepareStatement(sql);
     ) {

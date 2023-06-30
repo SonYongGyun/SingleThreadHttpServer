@@ -1,4 +1,4 @@
-package kr.co.mz.singlethread.model;
+package kr.co.mz.singlethread.database.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

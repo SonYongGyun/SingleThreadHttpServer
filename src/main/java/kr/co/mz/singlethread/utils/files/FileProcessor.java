@@ -18,6 +18,7 @@ public class FileProcessor {
   }
 
   public byte[] read() throws IOException {
+
     var resourceFile = new File(PROJECT_DIRECTORY + requsetUri);
     var buffer = new byte[4096];
 

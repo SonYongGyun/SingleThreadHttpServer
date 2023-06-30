@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
-import kr.co.mz.singlethread.dao.CacheDao;
+import kr.co.mz.singlethread.database.dao.CacheDao;
 import kr.co.mz.singlethread.utils.http.ParsedRequest;
 import kr.co.mz.singlethread.utils.http.ResponseGenerator;
 import kr.co.mz.singlethread.utils.http.ResponseSender;
@@ -40,7 +40,7 @@ public class ClientSocket implements AutoCloseable {
     var cacheDaoOneByFileName = cacheDao.findOneByFileName(parsedRequest.getPath().substring(6));
     var responseBytes = parsedRequest.isCacheDtoRequest() && cacheDaoOneByFileName.isPresent()
         ? cacheDaoOneByFileName.get().getFileData()
-        : new byte[0]; // todo 404 띄우기
+        : new byte[0];
 
     if (responseBytes.length == 0) {
       responseBytes = responseGenerator.generateResponse();
@@ -48,8 +48,6 @@ public class ClientSocket implements AutoCloseable {
     }
     var responseSender = new ResponseSender(socket.getOutputStream(), responseBytes);
     responseSender.send();
-
-
   }//handle
 
 
@@ -60,12 +58,5 @@ public class ClientSocket implements AutoCloseable {
     } catch (IOException e) {
       System.err.println("Failed to close serversocket: " + e.getMessage());
     }
-    try {
-      connection.close();
-    } catch (SQLException e) {
-      System.err.println("Failed to close database connection: " + e.getMessage());
-    }
-
-
   }// close
 }
