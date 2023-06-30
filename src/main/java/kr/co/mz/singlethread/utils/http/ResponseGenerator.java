@@ -45,7 +45,7 @@ public class ResponseGenerator {
   }
 
   public byte[] getBodyBytes() {
-    return new FileProcessor(parsedRequest.getPath()).readAndPut();
+    return new FileProcessor(parsedRequest.getPath()).read();
 
   }
 

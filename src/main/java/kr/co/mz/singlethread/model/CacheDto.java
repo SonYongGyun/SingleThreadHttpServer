@@ -11,7 +11,6 @@ public class CacheDto {
   private byte[] fileData;
 
   public CacheDto() {
-
   }
 
   public CacheDto(String fileName, byte[] fileData) {
@@ -19,7 +18,6 @@ public class CacheDto {
     this.fileName = fileName;
     this.fileData = fileData;
   }
-
 
   public UUID getFileId() {
     return fileId;

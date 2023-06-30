@@ -10,15 +10,14 @@ public class FileProcessor {
 
   private static final String PROJECT_DIRECTORY =
       System.getProperty("user.dir") + "/src/resources/html"; // 사용 가능 ? 보안?
-  private String requsetUri;
+  private final String requsetUri;
 
 
   public FileProcessor(String requsetUri) {
     this.requsetUri = requsetUri;
   }
 
-  public byte[] readAndPut() {
-
+  public byte[] read() {
     var resourceFile = new File(PROJECT_DIRECTORY + requsetUri);
     var buffer = new byte[4096];
 

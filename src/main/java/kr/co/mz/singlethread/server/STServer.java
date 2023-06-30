@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.Connection;
 import java.sql.SQLException;
-import kr.co.mz.singlethread.config.ConnectionRequirement;
+import kr.co.mz.singlethread.config.ConnectionProperties;
 import kr.co.mz.singlethread.utils.database.DbConnectionFactory;
 
 public class STServer implements Closeable {
@@ -27,12 +27,11 @@ public class STServer implements Closeable {
   public void start() throws IOException, SQLException {
     System.out.println("Server has been started.");
     serverSocket = new ServerSocket(port);
-    connection = DbConnectionFactory.createConnection(new ConnectionRequirement());
+    connection = DbConnectionFactory.createConnection(new ConnectionProperties());
 
     while (isServerRunning) {
       try {
         var clientSocket = serverSocket.accept();
-        System.out.println("??");
         var stClientSocket = new ClientSocket(clientSocket, cache, connection); // todo 프로토콜을 못알아처먹음
 
         stClientSocket.handleRequest();

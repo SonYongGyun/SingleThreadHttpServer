@@ -8,25 +8,24 @@ public class ParsedRequest {
   private final String method;
   private final URL url;
   private final String version;
+  private boolean cacheDtoRequest = false;
 
   private final String uriExtension;
 
-  private final boolean cacheDtoRequest;
 
   public ParsedRequest(String requestLine) throws MalformedURLException {
     var splitRequestLine = requestLine.split(" ");
     method = splitRequestLine[0];
-    url = new URL(splitRequestLine[1]);
+    url = new URL("http://" + splitRequestLine[1]);
     version = splitRequestLine[2];
 
     if (url.getPath().startsWith("/cache")) {// 요청마다 다를 수도 있어서?
       cacheDtoRequest = true;
-    } else {
-      cacheDtoRequest = false;
     }
+
     String[] uriParts = url.getFile().split("\\.");
     uriExtension = uriParts[1];
-   
+
   }
 
 

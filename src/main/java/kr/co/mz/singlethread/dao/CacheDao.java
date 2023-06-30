@@ -23,27 +23,24 @@ public class CacheDao {
     final var list = new ArrayList<CacheDto>();
     try (
         var pst = connection.prepareStatement(sql);
-        var rs = pst.executeQuery();
     ) {
+      var rs = pst.executeQuery();
       while (rs.next()) {
         list.add(
             CacheDto.fromResultSet(rs)
         );
       }
     }
-
     return list;
   }
 
   public Optional<CacheDto> findOneByFileId(String uuid) throws SQLException {
     final var sql = "select * from cache where fileId = ?";
-
     try (
         PreparedStatement pst = connection.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
     ) {
       pst.setString(1, uuid);
-
+      ResultSet rs = pst.executeQuery();
       CacheDto cacheDTO = null;
       if (rs.next()) {
         cacheDTO = CacheDto.fromResultSet(rs);
@@ -54,18 +51,16 @@ public class CacheDao {
 
   public Optional<CacheDto> findOneByFileName(String fileName) throws SQLException {
     String sql = "select * from cache where fileName = ?";
-
     try (
         PreparedStatement pst = connection.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
     ) {
       pst.setString(1, fileName);
-
+      var rs = pst.executeQuery();
       CacheDto cacheDto = null;
       if (rs.next()) {
         cacheDto = CacheDto.fromResultSet(rs);
       }
-
+      System.out.println("searched fileName" + cacheDto.getFileName());
       return Optional.ofNullable(cacheDto);
     }
   }
@@ -74,9 +69,7 @@ public class CacheDao {
     if (existsByFileName(fileName)) {
       return Optional.empty();
     }
-
     var cacheDto = new CacheDto(fileName, fileData);
-
     String sql = """
         INSERT INTO cache (fileId, fileName, fileData) 
         VALUES (?,?,?)
@@ -88,14 +81,12 @@ public class CacheDao {
       pst.setString(2, cacheDto.getFileName());
       pst.setBytes(3, cacheDto.getFileData());
       pst.executeUpdate();
-
       return Optional.of(cacheDto.getFileId());
     }
   }
 
   public int deleteByFileId(UUID fileId) throws SQLException {
     final var sql = "delete from cache where fileid = ?";
-
     try (
         var pst = connection.prepareStatement(sql);
     ) {
@@ -110,7 +101,6 @@ public class CacheDao {
            set filedata = ?
          where fileid = ?
         """;
-
     try (
         var pst = connection.prepareStatement(sql);
     ) {
@@ -124,16 +114,15 @@ public class CacheDao {
     final var sql = "select exists (select 1 from cache where filename=?)";
     try (
         PreparedStatement pst = connection.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
     ) {
       pst.setString(1, fileName);
-
-      if (rs.next()) {
-        final int existsResult = rs.getInt(1);
-        return existsResult == 1;
+      try (var rs = pst.executeQuery()) {
+        if (rs.next()) {
+          final int existsResult = rs.getInt(1);
+          return existsResult == 1;
+        }
+        return false;
       }
-
-      return false;
     }
   }
 }

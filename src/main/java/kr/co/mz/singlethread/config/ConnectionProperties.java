@@ -1,6 +1,6 @@
 package kr.co.mz.singlethread.config;
 
-public class ConnectionRequirement {
+public class ConnectionProperties {
 
   private final String url = "jdbc:mysql://localhost:3306/webchat?serverTimezone=Asia/Seoul&useSSL=true&requireSSL=false";
   private final String userName = "webchat";

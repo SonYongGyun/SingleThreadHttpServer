@@ -29,18 +29,19 @@ public class ClientSocket implements AutoCloseable {
     final var requestLine = new BufferedReader(
         new InputStreamReader(socket.getInputStream())).readLine();
 
-    ParsedRequest parsedRequest = new ParsedRequest(requestLine);
+    var parsedRequest = new ParsedRequest(requestLine);
 
     var cacheDao = new CacheDao(connection);
     var responseGenerator = new ResponseGenerator(
         parsedRequest,
         cache
     );
-
-    var cacheDaoOneByFileName = cacheDao.findOneByFileName(parsedRequest.getPath());
+    System.out.println("parsed" + parsedRequest.getPath());
+    var cacheDaoOneByFileName = cacheDao.findOneByFileName(parsedRequest.getPath().substring(6));
     var responseBytes = parsedRequest.isCacheDtoRequest() && cacheDaoOneByFileName.isPresent()
         ? cacheDaoOneByFileName.get().getFileData()
         : new byte[0]; // todo 404 띄우기
+
     if (responseBytes.length == 0) {
       responseBytes = responseGenerator.generateResponse();
       cacheDao.insertOne(parsedRequest.getPath(), responseBytes);
